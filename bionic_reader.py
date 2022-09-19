@@ -2,7 +2,7 @@ import os
 from math import floor
 
 
-def bionic_reader(text: str, bold_bold_output_type: str) -> str:
+def bionic_reader(text: str, bold_output_type: str) -> str:
     def bold_word(word, idx, bold_output_type) -> str:
         ansi_bold = "\033[1m"
         ansi_end = "\033[0m"
