@@ -31,9 +31,7 @@ def bionic_reader(text: str, bold_output_type: str, file) -> str:
         word = bold_word(word, word_split_idx, bold_output_type)
         bolded_text.append(word)
     text = " ".join(bolded_text)
-    print(text)
-    if file:
-        print(file)
+    return text
 
 
 if __name__=='__main__':
