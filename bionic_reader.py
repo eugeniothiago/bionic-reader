@@ -1,8 +1,15 @@
 import os
 from math import floor
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--text", type=str, required=False)
+parser.add_argument("--file", type=object, required=False)
+parser.add_argument("--output-type", type=str, required=True)
+args = parser.parse_args()
 
 
-def bionic_reader(text: str, bold_output_type: str) -> str:
+def bionic_reader(text: str, bold_output_type: str, file) -> str:
     def bold_word(word, idx, bold_output_type) -> str:
         ansi_bold = "\033[1m"
         ansi_end = "\033[0m"
@@ -24,4 +31,10 @@ def bionic_reader(text: str, bold_output_type: str) -> str:
         word = bold_word(word, word_split_idx, bold_output_type)
         bolded_text.append(word)
     text = " ".join(bolded_text)
-    return text
+    print(text)
+    if file:
+        print(file)
+
+
+if __name__=='__main__':
+    bionic_reader(text=args.text,bold_output_type=args.output_type, file=args.file)
