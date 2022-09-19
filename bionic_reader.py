@@ -4,7 +4,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--text", type=str, required=False)
-parser.add_argument("--file", type=object, required=False)
+parser.add_argument("--file", type=str, required=False)
 parser.add_argument("--output-type", type=str, required=True)
 args = parser.parse_args()
 
