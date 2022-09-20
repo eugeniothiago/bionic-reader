@@ -16,12 +16,16 @@ def bionic_reader(text: str, bold_output_type: str, file) -> str:
         markdown_bold = "**"
         html_bold = "<b>"
         html_bold_end = "</b>"
+        rtf_bold = "\b"
+        rtf_bold_end = "\b0"
         if bold_output_type == "ansi":
             return f"{ansi_bold}{word[:idx]}{ansi_end}{word[idx:]}"
         elif bold_output_type == "markdown":
             return f"{markdown_bold}{word[:idx]}{markdown_bold}{word[idx:]}"
-        elif bold_output_type == 'html':
+        elif bold_output_type == "html":
             return f"{html_bold}{word[:idx]}{html_bold_end}{word[idx:]}"
+        elif bold_output_type == "rtf":
+            return f"{rtf_bold}{word[:idx]}{rtf_bold_end}{word[idx:]}"
 
     bolded_text = []
     for word in text.split():
@@ -34,5 +38,5 @@ def bionic_reader(text: str, bold_output_type: str, file) -> str:
     return text
 
 
-if __name__=='__main__':
-    bionic_reader(text=args.text,bold_output_type=args.output_type, file=args.file)
+if __name__ == "__main__":
+    bionic_reader(text=args.text, bold_output_type=args.output_type, file=args.file)

@@ -9,7 +9,7 @@ Example: **Lo**rem **ip**sum **do**lor **si**t **am**et, **conse**ctetur **adipi
 
 ### Script parameters:
 - `--text`: The string/text to be processed.
-- `--output_type`: So you can select in what language/type you want to apply boldness. The script currently supports **html, markdown and ANSI** outputs.
+- `--output_type`: So you can select in what language/type you want to apply boldness. The script currently supports **html, RTF, markdown and ANSI** outputs.
 
 The script **will process entire files in the future**. Currently working on that :D 
 
