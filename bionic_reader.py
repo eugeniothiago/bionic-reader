@@ -1,6 +1,7 @@
 import os
 from math import floor
 import argparse
+from typing import Any
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--text", type=str, required=False)
@@ -10,6 +11,7 @@ args = parser.parse_args()
 
 
 def bionic_reader(text: str, bold_output_type: str, file) -> str:
+
     def bold_word(word, idx, bold_output_type) -> str:
         ansi_bold = "\033[1m"
         ansi_end = "\033[0m"
@@ -27,15 +29,56 @@ def bionic_reader(text: str, bold_output_type: str, file) -> str:
         elif bold_output_type == "rtf":
             return f"{rtf_bold}{word[:idx]}{rtf_bold_end}{word[idx:]}"
 
-    bolded_text = []
-    for word in text.split():
+
+    def word_len(word: str) -> int:
         word_split_idx = floor(len(word) / 2)
         if len(word) == 3:
             word_split_idx = 2
-        word = bold_word(word, word_split_idx, bold_output_type)
-        bolded_text.append(word)
-    text = " ".join(bolded_text)
-    return text
+        return word_split_idx
+
+
+    def input_handler(text: str, file_path: str) -> list:
+        text_list = []
+        if text:
+            text_list.extend(text.split())
+            return text_list
+        if file_path:
+            file_name, extension = os.path.splitext(file_path)
+            try:
+                if extension == ".txt":
+                    with open(file_path) as file:
+                        text_list.extend(file.readlines())
+            except OSError as e:
+                print(f"{e}")
+            return text_list
+
+
+    def process_words(words_list, bold_output_type) -> str:
+        bolded_text = []
+        for word in words_list:
+            word_split_idx = word_len(word)
+            word = bold_word(word, word_split_idx, bold_output_type)
+            bolded_text.append(word)
+        text = " ".join(bolded_text)
+        return text
+
+    def process_txt(file_path: str, bold_output_type):
+        with open(file_path) as file:
+            file_name, extension = os.path.splitext(file_path)
+            file_lines = file.readlines()
+            line_words = []
+            for line in file_lines:
+                line_words.append(line.split())
+            file_lines.clear()
+            line_words = [
+                [bold_word(word, word_len(word),bold_output_type) for word in line_word]
+                for line_word in line_words
+            ]
+            for string in line_words:
+                file_lines.append(" ".join(string))
+            with open(f"{file_name}_bold" + extension, "a") as edited_file:
+                for line in file_lines:
+                    edited_file.write(line + " \n")
 
 
 if __name__ == "__main__":
