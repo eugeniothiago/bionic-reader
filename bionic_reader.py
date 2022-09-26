@@ -19,6 +19,8 @@ def bionic_reader(text: str, bold_output_type: str, file) -> str:
         html_bold_end = "</b>"
         rtf_bold = "\b"
         rtf_bold_end = "\b0"
+        if idx == 0:
+            return word
         if bold_output_type == "ansi":
             return f"{ansi_bold}{word[:idx]}{ansi_end}{word[idx:]}"
         elif bold_output_type == "markdown":
@@ -58,24 +60,31 @@ def bionic_reader(text: str, bold_output_type: str, file) -> str:
         text = " ".join(bolded_text)
         return text
 
-    def process_txt(file_path: str, bold_output_type):
+    def process_markdown(file_path: str, bold_output_type):
         with open(file_path) as file:
             file_name, extension = os.path.splitext(file_path)
             file_lines = file.readlines()
             line_words = []
+            special_characters = tuple(["`", "-", "--", "**", "#", "##", "###", "####"])
+
             for line in file_lines:
                 line_words.append(line.split())
+
             file_lines.clear()
             line_words = [
                 [
                     bold_word(word, word_len(word), bold_output_type)
+                    if not word.startswith(special_characters)
+                    else word
                     for word in line_word
                 ]
                 for line_word in line_words
             ]
+
             for string in line_words:
                 file_lines.append(" ".join(string))
-            with open(f"{file_name}_bold" + extension, "a") as edited_file:
+
+            with open(f"{file_name}_bold" + extension, "w") as edited_file:
                 for line in file_lines:
                     edited_file.write(line + " \n")
 

@@ -1,2 +1,4 @@
 bionic_reader.ipynb
 *.txt
+*.md
+! README.md
