@@ -65,21 +65,21 @@ def bionic_reader(text: str, bold_output_type: str, file) -> str:
             file_name, extension = os.path.splitext(file_path)
             file_lines = file.readlines()
             line_words = []
-            special_characters = tuple(["`", "-", "--", "**", "#", "##", "###", "####"])
+            special_characters = ["`", "-", "--", "**", "#", "##", "###", "####"]
 
             for line in file_lines:
                 line_words.append(line.split())
 
             file_lines.clear()
-            line_words = [
-                [
+            line_words = (
+                (
                     bold_word(word, word_len(word), bold_output_type)
-                    if not word.startswith(special_characters)
+                    if not word.startswith(tuple(special_characters))
                     else word
                     for word in line_word
-                ]
+                )
                 for line_word in line_words
-            ]
+            )
 
             for string in line_words:
                 file_lines.append(" ".join(string))
